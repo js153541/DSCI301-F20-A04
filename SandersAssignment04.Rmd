@@ -1,0 +1,79 @@
+---
+title: "Assignment 04"
+author: "Jarvis Sanders"
+date: "9/15/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+Problem #1
+
+By graphing the data this way I am able to see that the sepal width data rises to a certain point and then decreases steadily after that with local peaks, but ultimately decreasing. 
+
+For sepal length, the data increases and decreases often. Multiple local peaks and lows. 
+
+```{r}
+library(ggplot2)
+library(dplyr)
+
+ggplot(data = iris) +
+  geom_bar(mapping = aes (x = Sepal.Length))
+
+ggplot(data = iris) +
+  geom_bar(mapping = aes (x = Sepal.Width))
+```
+
+<span style="color: green; font-size: 14pt">*Comments:*   </span>
+  
+  * <span style="color: green; font-size: 14pt">A bar plot is not really appropriate here; that would be useful for discrete (rather than continuous) data.  You are looking for a histogram, with some work on picking a reasonable bin width.  For example, see below.</span>
+  * <span style="color: green; font-size: 14pt">Also be sure your final graphs have appropriate labels.</span>
+   
+    
+```{r}
+ggplot(iris) +
+  geom_histogram(aes(x = Sepal.Length), binwidth = 0.5) +
+  labs(title = "Alternate: Sepal Length Distribution", x = "Sepal Width", y = NULL)
+```
+    
+
+Problem #2
+
+By adding the categorical variable species, I am able to take a closer look at each species of flower such as the sepal length and width in one graph. 
+
+```{r}
+ggplot(data = iris) +
+  geom_histogram(aes(x = Sepal.Length, fill = Species), binwidth = 1) +
+  labs(title = "Species", 
+       x = "Sepal Length",
+       y = "Sepal Width")
+```
+
+<span style="color: green; font-size: 14pt">*Comments:*    </span>
+        
+  * <span style="color: green; font-size: 14pt">Your binwidth is a little large here; this gives you only five categories.  </span>
+  * <span style="color: green; font-size: 14pt">Your y-axis is not width.  (You have not produced a graph for the distribution of widths here.)  </span>
+  * <span style="color: green; font-size: 14pt">The color does help differentiate, but these are still hard to read plotted on top of each other.  It will help to separate the graphs by species with a `facet_wrap`, like below:
+    </span>
+    
+```{r}
+ggplot(data = iris) +
+  geom_histogram(aes(x = Sepal.Length, fill = Species), binwidth = .45) +
+  facet_wrap( ~ Species) +
+  labs(title = "Alternate: Sepal Length by Species", 
+       x = "Sepal Length",
+       y = "Count")
+```
+
+Problem #3
+
+By graphing the data this way, I will be able to see the relationship between the width of the sepal of virginica, as well as the count of each occurence. 
+
+```{r}
+ggplot(data = iris) +
+  geom_histogram(mapping = aes (x = Sepal.Width, fill = "virginica"), binwidth = 1)
+```
+
+<span style="color: green; font-size: 14pt">*Comments:*  Again, this is too large of a binwidth.  (You only have three categories!)  What do you see about the distribution of this variable?
+    </span>
